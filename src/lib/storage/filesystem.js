@@ -9,14 +9,11 @@ const database = {};
 
 storage.fetchAll = (dataModel) => {
   return new Promise((resolve, reject) => {
-    console.log(dataModel);
     let directory = `${dataDirectory}${dataModel}/` ;
-    console.log(directory);
     fs.readdir(directory, (err, files) => {
       if (err) { reject(err); }
       else {
         let promises = [];
-        console.log(files);
         files.forEach((el) => {
           let id = el.replace(/\.json/, '');
           promises.push(storage.fetchOne(id, dataModel));

@@ -9,7 +9,7 @@ switch (process.env.STORAGE) {
   case 'filesystem':
     dataStorageModule = fileStorage;
     break;
-  default:
+  case 'memory':
     dataStorageModule = memoryStorage;
     break;
 }

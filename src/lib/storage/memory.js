@@ -1,31 +1,38 @@
+import Keyboard from "../../models/keyboards";
+
 'use strict';
 
 const storage = {};
 
-const database = {};
-
-storage.fetchAll = () => {
-  return Promise.resolve(database);
+const database = {
+  guitars: {},
+  keyboards: {}
 };
 
-storage.fetchOne = (id) => {
+storage.fetchAll = (dataModel) => {
+  return Promise.resolve(database.dataModel);
+};
+
+storage.fetchOne = (id, dataModel) => {
   return new Promise((resolve, reject) => {
-    if (database[id]) { resolve(database[id]); }
+    if (database[id]) { resolve(database.dataModel[id]); }
     else { reject(`${id} not found`); }
   });
 };
 
-storage.save = (record) => {
+storage.save = (record, dataModel) => {
+  
   return new Promise((resolve, reject) => {
-    database[record.id] = record;
-    resolve(database[record.id]);
+    let item = new Keyboard(record);
+    database.dataModel[item.id] = item;
+    resolve(database.dataModel[item.id]);
   });
 };
 
-storage.delete = (id) => {
+storage.delete = (id, dataModel) => {
   return new Promise((resolve, reject) => {
-    if (database[id]) {
-      delete database[id];
+    if (database.dataModel[id]) {
+      delete database.dataModel[id];
       resolve('Entry Deleted!');
     } else {
       reject('Entry was not found');
