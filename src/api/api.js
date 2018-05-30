@@ -1,22 +1,10 @@
 'use strict';
 
 import express from 'express';
-import requireAll from 'require-dir';
 const router = express.Router();
 
-const models = requireAll('../models');
-
-let getModel = (req, res) => {
-  try {
-    if (req.params.model && models[req.params.model]) {
-      return models[req.params.model].default ? models[req.params.model].default : models[req.params.model];
-    }
-    throw `Model ${req.params.model} not found.`;
-  }
-  catch (err) {
-    serverError(res, err);
-  }
-};
+import modelFinder from '../middleware/models.js';
+router.param('model', modelFinder);
 
 let sendJSON = (res, data) => {
   res.statusCode = 200;
@@ -69,11 +57,5 @@ router.delete('/api/v1/:model/:id', (req, res) => {
     .then(data => sendJSON204(res, data))
     .catch(err => serverError(res, err));
 });
-
-router.param('model', (req, res, next, value) => {
-  req.model = getModel(req, res);
-  next();
-});
-
 
 export default router;

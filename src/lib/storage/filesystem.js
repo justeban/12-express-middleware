@@ -2,7 +2,7 @@
 
 import fs from 'fs';
 
-const dataDirectory = `${__dirname}/../../../data/guitars`;
+const dataDirectory = `${__dirname}/../../../data/guitars/`;
 
 const storage = {};
 const database = {};
@@ -10,6 +10,7 @@ const database = {};
 storage.fetchAll = () => {
   return new Promise((resolve, reject) => {
     let directory = dataDirectory;
+    // console.log(directory);
     fs.readdir(directory, (err, files) => {
       if (err) { reject(err); }
       else {
