@@ -32,28 +32,28 @@ let serverError = (res, err) => {
 };
 
 router.get('/api/v1/:model', (req, res) => {
-  req.model.fetchAll()
+  req.model.fetchAll(req.dataModel)
     .then(data => sendJSON(res, data))
     .catch(err => serverError(res, err));
 });
 
 router.get('/api/v1/:model/:id', (req, res) => {
   let id = req.params.id;
-  req.model.fetchOne(id)
+  req.model.fetchOne(id, req.dataModel)
     .then(data => sendJSON(res, data))
     .catch(err => serverError(res, err));
 });
 
 router.post('/api/v1/:model', (req, res) => {
   let record = new req.model(req.body);
-  record.save()
+  record.save(req.dataModel)
     .then(data => sendJSON(res, data))
     .catch(err => serverError(res, err));
 });
 
 router.delete('/api/v1/:model/:id', (req, res) => {
   let id = req.params.id;
-  req.model.deleteOne(id)
+  req.model.deleteOne(id, req.dataModel)
     .then(data => sendJSON204(res, data))
     .catch(err => serverError(res, err));
 });
